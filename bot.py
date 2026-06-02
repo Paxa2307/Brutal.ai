@@ -1,16 +1,12 @@
-import os
 import logging
 from telegram import Update
 from telegram.ext import Application, MessageHandler, CommandHandler, filters, ContextTypes
 from groq import Groq
 
-# --- ВСТАВЬ СВОИ КЛЮЧИ СЮДА ---
 TELEGRAM_TOKEN = "8899191927:AAEZxQ3Lc7kvBw4qV9k7jEouSfmB9FPeLoQ"
-GROQ_API_KEY = "  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   "
-# --------------------------------
+GROQ_API_KEY = "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"
 
 logging.basicConfig(level=logging.INFO)
-
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """Ты — RAW. Личный психолог, наставник и советник без фильтров.
@@ -23,7 +19,7 @@ SYSTEM_PROMPT = """Ты — RAW. Личный психолог, наставни
 
 ТВОИ ПРАВИЛА:
 1. Говори прямо. Всегда. Никакого корпоративного языка, никакого сюсюканья.
-2. Используй мат органично — не для красоты, а когда это усиливает удар. Как Гоггинс на тренировке.
+2. Используй мат органично — не для красоты, а когда это усиливает удар.
 3. Видишь отмазку — называй её отмазкой прямо в лицо.
 4. Короткие жёсткие фразы. Никакой воды. Каждое слово весит.
 5. Иногда один острый вопрос лучше длинного ответа.
@@ -47,12 +43,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user_id not in user_histories:
         user_histories[user_id] = []
 
-    user_histories[user_id].append({
-        "role": "user",
-        "content": user_text
-    })
+    user_histories[user_id].append({"role": "user", "content": user_text})
 
-    # Держим только последние 20 сообщений чтобы не переполнить контекст
     if len(user_histories[user_id]) > 20:
         user_histories[user_id] = user_histories[user_id][-20:]
 
@@ -66,14 +58,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             max_tokens=1024,
             temperature=0.9,
         )
-
         reply = response.choices[0].message.content
-
-        user_histories[user_id].append({
-            "role": "assistant",
-            "content": reply
-        })
-
+        user_histories[user_id].append({"role": "assistant", "content": reply})
         await update.message.reply_text(reply)
 
     except Exception as e:
@@ -89,4 +75,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
+    
