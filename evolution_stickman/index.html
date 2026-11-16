@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Эволюция</title>
+<style>
+@font-face{font-family:Hand;font-weight:700;src:url(fonts/caveat-cyrillic-700-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:Hand;font-weight:700;src:url(fonts/caveat-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F;}
+@font-face{font-family:Hand;font-weight:400;src:url(fonts/caveat-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:Hand;font-weight:400;src:url(fonts/caveat-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F;}
+html,body{margin:0;background:#1b1b1b;color:#ddd;font:14px sans-serif}
+canvas{width:100%;max-width:1280px;height:auto;display:block;margin:0 auto}
+#ui{text-align:center;padding:8px}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="ui"><button id="play">▶ Play</button> <input id="scrub" type="range" min="0" max="20" step="0.01" value="0" style="width:60%"></div>
+<audio id="aud" src="audio.wav" preload="auto"></audio>
+<script src="evo.js"></script>
+</body></html>
