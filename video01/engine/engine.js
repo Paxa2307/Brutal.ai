@@ -381,13 +381,13 @@ E.wave = (c, e, lt, d, t) => {
 E.smoke = (c, e, lt, d, t) => {
   const k = lerp(e.k0 ?? 0, e.k1 ?? 0.6, eo(lt / (e.dur || d)));
   c.save(); c.globalAlpha = k;
-  c.drawImage(SMOKE[0], 0, -((t * 40) % H) - H * 0.2);
-  c.globalAlpha = k * 0.7; c.drawImage(SMOKE[1], -40, -((t * 25 + 400) % H) - H * 0.3);
+  c.drawImage(SMOKE[0], 0, -((t * 40) % H));
+  c.globalAlpha = k * 0.7; c.drawImage(SMOKE[1], -40, -((t * 25 + 400) % H));
   c.restore();
 };
 
 E.crowd = (c, e, lt, d, t) => {
-  const rows = e.rows || 3, cols = e.cols || 7, src = e.src || 'fig_stand';
+  const rows = e.rows || 3, cols = e.cols || 7, src = e.src || '05_suit_man';
   const im = IMG[src]; if (!im) return;
   const base = e.h || 420;
   const items = [];
