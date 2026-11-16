@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<defs>
+<radialGradient id="ball" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset="0.55" stop-color="#bbb"/><stop offset="1" stop-color="#444"/></radialGradient>
+<radialGradient id="ballD" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ddd"/><stop offset="0.6" stop-color="#888"/><stop offset="1" stop-color="#222"/></radialGradient>
+<linearGradient id="lr" x1="0" x2="1"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ddd"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="rl" x1="1" x2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ccc"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="tb" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#666"/></linearGradient>
+<linearGradient id="bt" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#eee"/><stop offset="1" stop-color="#555"/></linearGradient>
+<linearGradient id="cyl" x1="0" x2="1"><stop offset="0" stop-color="#333"/><stop offset="0.3" stop-color="#ccc"/><stop offset="0.45" stop-color="#fff"/><stop offset="1" stop-color="#222"/></linearGradient>
+<linearGradient id="cylD" x1="0" x2="1"><stop offset="0" stop-color="#111"/><stop offset="0.35" stop-color="#777"/><stop offset="0.5" stop-color="#aaa"/><stop offset="1" stop-color="#111"/></linearGradient>
+
+</defs>
+<g transform="rotate(-18 450 300)"><ellipse cx="120" cy="300" rx="70" ry="42" stroke="url(#cyl)" stroke-width="26" fill="none"/><rect x="150" y="290" width="140" height="20" rx="10" fill="url(#cylD)"/><ellipse cx="320" cy="300" rx="70" ry="42" stroke="url(#cyl)" stroke-width="26" fill="none"/><rect x="350" y="290" width="140" height="20" rx="10" fill="url(#cylD)"/><ellipse cx="520" cy="300" rx="70" ry="42" stroke="url(#cyl)" stroke-width="26" fill="none"/><rect x="550" y="290" width="140" height="20" rx="10" fill="url(#cylD)"/><ellipse cx="720" cy="300" rx="70" ry="42" stroke="url(#cyl)" stroke-width="26" fill="none"/></g>
+</svg>

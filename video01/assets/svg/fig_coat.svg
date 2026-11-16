@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="860" viewBox="0 0 520 860">
+<defs>
+<radialGradient id="ball" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset="0.55" stop-color="#bbb"/><stop offset="1" stop-color="#444"/></radialGradient>
+<radialGradient id="ballD" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ddd"/><stop offset="0.6" stop-color="#888"/><stop offset="1" stop-color="#222"/></radialGradient>
+<linearGradient id="lr" x1="0" x2="1"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ddd"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="rl" x1="1" x2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ccc"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="tb" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#666"/></linearGradient>
+<linearGradient id="bt" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#eee"/><stop offset="1" stop-color="#555"/></linearGradient>
+<linearGradient id="cyl" x1="0" x2="1"><stop offset="0" stop-color="#333"/><stop offset="0.3" stop-color="#ccc"/><stop offset="0.45" stop-color="#fff"/><stop offset="1" stop-color="#222"/></linearGradient>
+<linearGradient id="cylD" x1="0" x2="1"><stop offset="0" stop-color="#111"/><stop offset="0.35" stop-color="#777"/><stop offset="0.5" stop-color="#aaa"/><stop offset="1" stop-color="#111"/></linearGradient>
+
+</defs>
+<g transform="translate(260 260)"><g><path d="M -70 180 L -60 560 L -15 560 L 0 260 L 15 560 L 60 560 L 70 180 Z" fill="url(#cylD)"/><ellipse cx="-40" cy="565" rx="38" ry="14" fill="#111"/><ellipse cx="40" cy="565" rx="38" ry="14" fill="#111"/><path d="M -95 -20 C -100 60, -85 160, -75 330 L 75 330 C 85 160, 100 60, 95 -20 C 60 -60, -60 -60, -95 -20 Z" fill="url(#cyl)"/><path d="M -25 -55 L 0 30 L 25 -55 Z" fill="#eee"/><path d="M -30 -55 L -2 90 L -50 20 Z" fill="#999"/><path d="M 30 -55 L 2 90 L 50 20 Z" fill="#999"/><line x1="0" y1="90" x2="0" y2="320" stroke="#666" stroke-width="3"/><circle cx="10" cy="40" r="4" fill="#444"/><circle cx="10" cy="110" r="4" fill="#444"/><circle cx="10" cy="180" r="4" fill="#444"/><path d="M -95 -15 C -120 60, -118 140, -110 210 L -80 210 C -82 140, -75 60, -70 0 Z" fill="url(#cylD)"/><path d="M 95 -15 C 120 60, 118 140, 110 210 L 80 210 C 82 140, 75 60, 70 0 Z" fill="url(#cylD)"/><ellipse cx="-95" cy="222" rx="16" ry="22" fill="url(#ball)"/><ellipse cx="95" cy="222" rx="16" ry="22" fill="url(#ball)"/><rect x="60" y="90" width="80" height="105" rx="4" fill="url(#tb)" stroke="#222" stroke-width="4" transform="rotate(-12 100 140)"/><rect x="-22" y="-100" width="44" height="50" fill="url(#ballD)"/><ellipse cx="0" cy="-155" rx="52" ry="64" fill="url(#ball)"/><path d="M -52 -170 C -50 -230, 50 -235, 54 -170 C 40 -200, -30 -205, -52 -170 Z" fill="#333"/></g></g>
+</svg>

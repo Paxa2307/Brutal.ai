@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="700" viewBox="0 0 600 700">
+<defs>
+<radialGradient id="ball" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset="0.55" stop-color="#bbb"/><stop offset="1" stop-color="#444"/></radialGradient>
+<radialGradient id="ballD" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ddd"/><stop offset="0.6" stop-color="#888"/><stop offset="1" stop-color="#222"/></radialGradient>
+<linearGradient id="lr" x1="0" x2="1"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ddd"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="rl" x1="1" x2="0"><stop offset="0" stop-color="#555"/><stop offset="0.5" stop-color="#ccc"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="tb" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#666"/></linearGradient>
+<linearGradient id="bt" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#eee"/><stop offset="1" stop-color="#555"/></linearGradient>
+<linearGradient id="cyl" x1="0" x2="1"><stop offset="0" stop-color="#333"/><stop offset="0.3" stop-color="#ccc"/><stop offset="0.45" stop-color="#fff"/><stop offset="1" stop-color="#222"/></linearGradient>
+<linearGradient id="cylD" x1="0" x2="1"><stop offset="0" stop-color="#111"/><stop offset="0.35" stop-color="#777"/><stop offset="0.5" stop-color="#aaa"/><stop offset="1" stop-color="#111"/></linearGradient>
+
+</defs>
+<rect x="290" y="120" width="20" height="520" fill="url(#cyl)"/><path d="M 200 660 L 400 660 L 360 620 L 240 620 Z" fill="url(#tb)"/><rect x="80" y="150" width="440" height="16" rx="8" fill="url(#cyl)" transform="rotate(-6 300 158)"/><circle cx="300" cy="120" r="26" fill="url(#ball)"/><line x1="100" y1="180" x2="30" y2="380" stroke="#333" stroke-width="3"/><line x1="100" y1="180" x2="170" y2="380" stroke="#333" stroke-width="3"/><path d="M 10 380 Q 100 450 190 380 Z" fill="url(#ball)"/><line x1="500" y1="140" x2="430" y2="340" stroke="#333" stroke-width="3"/><line x1="500" y1="140" x2="570" y2="340" stroke="#333" stroke-width="3"/><path d="M 410 340 Q 500 410 590 340 Z" fill="url(#ball)"/><path d="M 70 360 Q 100 330 130 360 Q 100 400 70 360 Z" fill="#00ff00"/>
+</svg>
