@@ -173,7 +173,7 @@ E.num = (c, e, lt, d, t) => {
   const col = e.color || GREEN;
   if (e.bands !== false) { const w = c.measureText(txt).width + 60; bands(c, 540, y - size * 0.85, w); bands(c, 540, y + (e.sub ? 110 : 40), w); }
   if (col === GREEN) glowText(c, txt, 540, y, col, 50); else { c.fillStyle = col; c.fillText(txt, 540, y); }
-  if (e.sub) { c.font = '900 54px "PF"'; c.fillStyle = col; c.fillText(e.sub, 540, y + 80); }
+  if (e.sub) { c.font = '900 54px "PF"'; c.fillStyle = col; c.fillText(e.sub, 540, y + Math.max(80, size * 0.4)); }
   c.restore();
 };
 
@@ -202,7 +202,7 @@ E.text = (c, e, lt, d, t) => {
 E.stamp = (c, e, lt) => {
   const k = lt - (e.at || 0); if (k < 0) return;
   c.save(); c.translate(e.x || 540, e.y || 820); c.rotate((e.rot ?? -12) * Math.PI / 180);
-  const s = lerp(2.2, 1, eo(k / 0.15)); c.scale(s, s); c.globalAlpha = clamp(k / 0.05) * 0.92;
+  const s = e.static ? 1 : lerp(2.2, 1, eo(k / 0.15)); c.scale(s, s); c.globalAlpha = (e.static ? 1 : clamp(k / 0.05)) * 0.92;
   c.font = `900 ${e.size || 88}px "MS"`; c.textAlign = 'center'; c.textBaseline = 'middle';
   const w = c.measureText(e.str).width + 50, h = (e.size || 88) * 1.35;
   c.strokeStyle = '#d4312b'; c.lineWidth = 9; c.strokeRect(-w / 2, -h / 2, w, h); c.lineWidth = 3; c.strokeRect(-w / 2 + 12, -h / 2 + 12, w - 24, h - 24);
@@ -276,7 +276,7 @@ E.bars = (c, e, lt, d, t) => {
     c.strokeStyle = GREEN; c.lineWidth = 3; c.strokeRect(x0, y, wMax, 54);
     c.shadowColor = GREEN; c.shadowBlur = 25; c.fillStyle = r.dim ? '#d9d9d2' : GREEN; c.fillRect(x0 + 6, y + 6, (wMax - 12) * v / (r.max || 100), 42);
     c.shadowBlur = 0; c.font = '900 46px "PF"'; c.textAlign = 'right'; c.fillStyle = WHITE;
-    c.fillText(Math.round(v) + (r.suffix ?? '%'), x0 + wMax, y + 118);
+    if (!r.nonum) c.fillText(Math.round(v) + (r.suffix ?? '%'), x0 + wMax, y + 118);
     c.restore();
   });
 };
@@ -444,6 +444,28 @@ E.circle = (c, e, lt) => {
   c.beginPath(); c.ellipse(e.x, e.y, e.rx, e.ry, -0.2, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2.1 * k); c.stroke(); c.restore();
 };
 
+E.peak = (c, e, lt, d, t) => {
+  const x0 = 130, x1 = 950, y0 = 1080, y1 = 520;
+  c.save(); c.globalAlpha = clamp(lt / 0.1);
+  c.strokeStyle = 'rgba(240,240,235,0.8)'; c.lineWidth = 4;
+  c.beginPath(); c.moveTo(x0, y1 - 40); c.lineTo(x0, y0); c.lineTo(x1 + 20, y0); c.stroke();
+  c.font = '800 30px "MS"'; c.fillStyle = 'rgba(240,240,235,0.85)'; c.textAlign = 'center';
+  [['−200 000', 0.0], ['−40 000', 0.62], ['СЕЙЧАС', 1.0]].forEach(([s, f]) => c.fillText(s, x0 + (x1 - x0) * f, y0 + 50));
+  c.save(); c.translate(x0 - 40, (y0 + y1) / 2); c.rotate(-Math.PI / 2); c.fillText('ИНТЕЛЛЕКТ', 0, 0); c.restore();
+  const f = u => { const p = 0.62; return u < p ? Math.pow(u / p, 1.6) : 1 - 0.28 * Math.pow((u - p) / (1 - p), 1.2); };
+  const prog = e.full ? 1 : eo(lt / 0.9);
+  c.strokeStyle = GREEN; c.lineWidth = 9; c.shadowColor = GREEN; c.shadowBlur = 25; c.lineJoin = 'round';
+  c.beginPath(); for (let i = 0; i <= 120 * prog; i++) { const u = i / 120; const x = x0 + (x1 - x0) * u, y = y0 - (y0 - y1) * f(u); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+  c.shadowBlur = 0;
+  if (prog > 0.62) { const x = x0 + (x1 - x0) * 0.62, y = y1; const p = 1 + 0.25 * Math.sin(t * 9);
+    c.fillStyle = GREEN; c.beginPath(); c.arc(x, y, 16 * p, 0, 7); c.fill();
+    c.font = '900 58px "PF"'; c.fillText('ПИК', x, y - 40); }
+  if (e.you !== undefined && lt > e.you) { const x = x1, y = y0 - (y0 - y1) * f(1);
+    c.fillStyle = '#ffffff'; c.beginPath(); c.arc(x, y, 14, 0, 7); c.fill();
+    c.font = '900 46px "MS"'; c.textAlign = 'right'; c.fillText('ВЫ', x - 25, y + 70); }
+  c.restore();
+};
+
 E.fill = (c, e, lt) => { c.save(); c.globalAlpha = e.a ?? 1; c.fillStyle = e.color; c.fillRect(0, 0, W, H); c.restore(); };
 
 // ------------------------------------------------------------------ post effects
@@ -468,22 +490,33 @@ function speedLines(c, k, seed) {
 // ------------------------------------------------------------------ captions
 function drawCaptions(c, t) {
   const ch = CAPS.find(k => t >= k.s - 0.02 && t < k.e); if (!ch) return;
-  const size = 60; c.font = `800 ${size}px "MS"`; c.textAlign = 'left';
-  const x0 = 90, maxW = 900;
-  // layout all words first so nothing jumps
-  const sp = c.measureText(' ').width; let x = x0, y = 1430; const pos = [];
-  for (const w of ch.w) { const ww = c.measureText(w.t).width; if (x + ww > x0 + maxW) { x = x0; y += size * 1.2; } pos.push([x, y, ww]); x += ww + sp; }
-  const lines = new Set(pos.map(p => p[1])).size; const yoff = -(lines - 1) * size * 0.6;
-  ch.w.forEach((w, i) => {
-    const k = (t - w.s + 0.04) / 0.12; if (k <= 0) return;
-    const [px, py, ww] = pos[i];
-    c.save(); c.globalAlpha = clamp(k);
-    if (k < 1) c.filter = `blur(${((1 - k) * 8).toFixed(1)}px)`;
-    c.shadowColor = 'rgba(0,0,0,0.85)'; c.shadowBlur = 18; c.shadowOffsetY = 4;
-    c.lineWidth = 9; c.lineJoin = 'round'; c.strokeStyle = 'rgba(0,0,0,0.75)'; c.strokeText(w.t, px, py + yoff); c.shadowBlur = 0;
-    c.fillStyle = w.hl ? GREEN : '#ffffff'; c.fillText(w.t, px, py + yoff);
-    if (w.hl) { c.shadowBlur = 0; c.shadowOffsetY = 0; c.fillRect(px, py + yoff + 12, ww * clamp(k), 6); }
-    c.restore();
+  const size = 64; c.font = `800 ${size}px "MS"`; c.textAlign = 'left';
+  const maxW = 920, sp = c.measureText(' ').width;
+  // greedy line break, then centre each line
+  const lines = [[]]; let lw = 0;
+  for (const w of ch.w) { const ww = c.measureText(w.t).width; if (lw && lw + sp + ww > maxW) { lines.push([]); lw = 0; } lines[lines.length - 1].push([w, ww]); lw += (lw ? sp : 0) + ww; }
+  const y0 = 1440 - (lines.length - 1) * size * 0.6;
+  lines.forEach((ln, li) => {
+    const tw = ln.reduce((a, [, ww]) => a + ww, 0) + sp * (ln.length - 1);
+    let x = 540 - tw / 2; const y = y0 + li * size * 1.2;
+    for (const [w, ww] of ln) {
+      const k = (t - w.s + 0.04) / 0.12;
+      if (k > 0) {
+        c.save(); c.globalAlpha = clamp(k);
+        if (k < 1) c.filter = `blur(${((1 - k) * 8).toFixed(1)}px)`;
+        let sc2 = 1;
+        if (w.acc) { const q = t - w.s; sc2 = q < 0.25 ? lerp(1.35, 1, eo(q / 0.25)) : 1; }
+        c.translate(x + ww / 2, y); c.scale(sc2, sc2); c.translate(-(x + ww / 2), -y);
+        c.shadowColor = 'rgba(0,0,0,0.85)'; c.shadowBlur = 18; c.shadowOffsetY = 4;
+        c.lineWidth = 9; c.lineJoin = 'round'; c.strokeStyle = 'rgba(0,0,0,0.75)'; c.strokeText(w.t, x, y); c.shadowOffsetY = 0;
+        if (w.acc) { c.shadowColor = GREEN; c.shadowBlur = 45; c.fillStyle = GREEN; c.fillText(w.t, x, y); c.shadowBlur = 20; }
+        else c.shadowBlur = 0;
+        c.fillStyle = w.hl ? GREEN : '#ffffff'; c.fillText(w.t, x, y);
+        if (w.hl) { c.shadowBlur = 0; c.fillRect(x, y + 13, ww * clamp(k), 7); }
+        c.restore();
+      }
+      x += ww + sp;
+    }
   });
 }
 
@@ -500,7 +533,8 @@ function render(t, frame) {
   sc.save();
   let shx = 0, shy = 0;
   if (sh.shake) for (const s0 of sh.shake) { const k = lt - s0; if (k >= 0 && k < 0.35) { const r = rng(frame); const a = (1 - k / 0.35) * 22; shx += (r() - 0.5) * a; shy += (r() - 0.5) * a; } }
-  sc.translate(540 + shx, 860 + shy); sc.scale(z, z); sc.translate(-540, -860);
+  let zp = 1; for (const [a, b] of PULSE) if (t >= a && t < b) { const ph = (t % BEAT) / BEAT; zp = 1 + 0.022 * Math.exp(-ph * 7); }
+  sc.translate(540 + shx, 860 + shy); sc.scale(z * zp, z * zp); sc.translate(-540, -860);
   for (const e of sh.els || []) { if (e.until !== undefined && lt > e.until) continue; E[e.type](sc, e, lt, d, t); }
   sc.restore();
   // transition in
@@ -516,6 +550,9 @@ function render(t, frame) {
   if (fx === 'flash' && lt < 0.2) { ctx.fillStyle = `rgba(255,255,255,${0.85 * (1 - lt / 0.2)})`; ctx.fillRect(0, 0, W, H); }
   if (fx === 'gflash' && lt < 0.25) { ctx.fillStyle = `rgba(59,224,106,${0.6 * (1 - lt / 0.25)})`; ctx.fillRect(0, 0, W, H); }
   if (sh.flashAt) for (const g of sh.flashAt) { const k = lt - g; if (k >= 0 && k < 0.25) { ctx.fillStyle = `rgba(255,255,255,${0.8 * (1 - k / 0.25)})`; ctx.fillRect(0, 0, W, H); } }
+  for (const a of ACC) { const k = t - a; if (k >= 0 && k < 0.4) {
+    if (k < 0.08) { ctx.fillStyle = `rgba(255,255,255,${0.75 * (1 - k / 0.08)})`; ctx.fillRect(0, 0, W, H); }
+    ctx.fillStyle = `rgba(59,224,106,${0.35 * (1 - k / 0.4)})`; ctx.fillRect(0, 0, W, H); } }
   // grain + vignette
   ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.16; ctx.drawImage(GRAIN[frame % 8], 0, 0, W, H);
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
@@ -526,9 +563,10 @@ function render(t, frame) {
   drawCaptions(ctx, t);
 }
 
-let DURATION = 0;
+let DURATION = 0; let ACC = []; let PULSE = []; const BEAT = 0.48;
 async function init(cfg) {
-  DURATION = cfg.duration; CAPS = cfg.captions; SHOTS = cfg.shots;
+  DURATION = cfg.duration; CAPS = cfg.captions; SHOTS = cfg.shots; PULSE = cfg.pulse || [];
+  ACC = []; for (const ch of CAPS) for (const w of ch.w) if (w.acc) ACC.push(w.s);
   buildTextures();
   await Promise.all(cfg.images.map(n => loadImg(n, '../build/art/' + n + '.png')));
   await document.fonts.load('800 60px "MS"'); await document.fonts.load('900 60px "MS"'); await document.fonts.load('900 60px "PF"');

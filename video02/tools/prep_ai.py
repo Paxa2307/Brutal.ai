@@ -12,8 +12,8 @@ from PIL import Image
 from scipy import ndimage as ndi
 
 GREEN = np.array([60, 230, 110], np.float32) / 255.0
-SCENES = {'17_yale', '18_newyork', '19_brick_wall', '20_smoke_room', '21_smoke_three',
-          '22_savanna', '23_tribe', '24_crowd_salute'}
+SCENES = {'v2_14_fox_farm', 'v2_15_tribe_expel', 'v2_20_crowd_builders', '22_savanna', '23_tribe',
+          '17_yale'}
 MAXSIDE = 1500
 
 
@@ -83,7 +83,7 @@ def main():
         if n in SCENES:
             res = np.dstack([tone, np.ones_like(L)])
         else:
-            a = cutout(L, holes=n in ('07_seated_man',))
+            a = cutout(L, holes=n in ('07_seated_man', 'v2_09_thinker_caveman', 'v2_04_chimp'))
             res = glow_compose(tone, a)
         img = Image.fromarray((res * 255).astype(np.uint8), 'RGBA')
         bb = img.getbbox()

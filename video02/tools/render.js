@@ -5,7 +5,7 @@ const fs = require('fs'); const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const FPS = 30;
 const caps = JSON.parse(fs.readFileSync(path.join(ROOT, 'build/captions.json')));
-const DURATION = +(process.env.DUR || 104.9);
+const DURATION = +(process.env.DUR || 79.0);
 const images = fs.readdirSync(path.join(ROOT, 'build/art')).filter(f => f.endsWith('.png')).map(f => f.slice(0, -4));
 
 async function openPage(browser) {
@@ -14,7 +14,7 @@ async function openPage(browser) {
   page.on('pageerror', e => console.log('[pageerror]', e.message));
   await page.goto('file://' + path.join(ROOT, 'engine/index.html'));
   await page.evaluate(async ({ caps, images, DURATION }) => {
-    await init({ duration: DURATION, captions: caps, shots: SHOTS_DEF, images });
+    await init({ duration: DURATION, captions: caps, shots: SHOTS_DEF, images, pulse: PULSE_DEF });
   }, { caps, images, DURATION });
   return page;
 }
