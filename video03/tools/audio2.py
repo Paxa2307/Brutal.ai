@@ -32,7 +32,12 @@ v = ff(v, 'highpass=f=75,equalizer=f=170:t=q:w=1:g=1.5,equalizer=f=400:t=q:w=1.2
           'equalizer=f=9500:t=h:w=1:g=1.5,deesser=i=0.35,acompressor=threshold=-22dB:ratio=4:attack=4:release=80:makeup=5,alimiter=limit=0.89')
 V = np.zeros(N); V[:min(N,len(v))] = v[:N]
 
-# accent words: echo + boom (like the reference)
+# accent words: lift the word by ~1.5 dB, then echo + boom (like the reference)
+_caps0 = json.load(open(f'{B}/captions.json'))
+for _w in [w for ch in _caps0 for w in ch['w'] if w['acc']]:
+    i0, i1 = int(_w['s']*SR), int((_w['e']+0.05)*SR)
+    f = int(0.02*SR); g = np.full(i1-i0, 1.19); g[:f] = np.linspace(1, 1.19, f); g[-f:] = np.linspace(1.19, 1, f)
+    V[i0:i1] *= g
 caps = json.load(open(f'{B}/captions.json'))
 acc = [w for ch in caps for w in ch['w'] if w['acc']]
 words = [w for ch in caps for w in ch['w']]
@@ -42,11 +47,11 @@ for w in acc:
     nxt = min([x['s'] for x in words if x['s'] > s + 0.05], default=DUR)
     seg = V[int(s*SR):int((e+0.05)*SR)].copy()
     seg = hp(seg, 250)
-    tail_end = min(nxt + 0.35, s + 1.3)
-    for k, (d, g, pan) in enumerate([(0.13,0.55,-0.6),(0.26,0.40,0.6),(0.39,0.28,-0.5),(0.52,0.19,0.5),(0.65,0.12,0)]):
+    tail_end = min(nxt + 0.25, e + 0.9)
+    for k, (d, g, pan) in enumerate([(0.06,0.26,-0.6),(0.19,0.15,0.6),(0.32,0.08,0)]):
         x = lp(seg, 6000 - k*900) * g
         L = np.cos((pan+1)*np.pi/4)*1.41; R = np.sin((pan+1)*np.pi/4)*1.41
-        t0 = s + d
+        t0 = e + d  # echoes start after the word ends, so the word itself stays clean
         n = int(max(0, tail_end - t0) * SR)
         if n <= 0: continue
         x = x[:n]
@@ -56,7 +61,7 @@ for w in acc:
     # hall reverb burst on the word
     n = int(1.4*SR); t = np.arange(n)/SR
     ir = lp(rng.standard_normal(n), 5000) * np.exp(-t*4)
-    rev = signal.oaconvolve(seg, ir)[:int((tail_end - s)*SR)] * 0.02
+    rev = signal.oaconvolve(seg, ir)[:int((tail_end - s)*SR)] * 0.007
     if len(rev) > 2000: rev[-2000:] *= np.linspace(1,0,2000)
     place(E, rev, s)
 print('accents', [(w['t'], w['s']) for w in acc])
@@ -104,7 +109,7 @@ for k, sh in enumerate(shots):
     for a in sh['shake']: place(S, boom(1.0), t+a, 0.12)
     if 'year' in ty or 'slot' in ty or 'num' in ty:
         for j in range(10): place(S, tick(), t+j*0.05, 0.25)
-for w in acc: place(S, boom(1.6), w['s'], 0.32)
+for w in acc: place(S, boom(1.6), w['s'], 0.22)
 
 # ---------------- mix
 Vst = np.stack([V,V],1)
