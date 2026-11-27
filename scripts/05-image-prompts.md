@@ -5,13 +5,13 @@
 
 | # | Файл | Тип | Пропорции | Где | Промт |
 |---|---|---|---|---|---|
-| 1 | `v5_01_baby_marble.png` | А | 1:1 | Хук | `classical white marble sculpture of a newborn baby curled up asleep, tiny fists, museum sculpture` |
+| 1 | `v5_01_baby_marble.png` | А | 1:1 | Хук | `classical white marble sculpture of a sleeping infant tightly wrapped in a swaddling blanket, only the peaceful face visible, museum sculpture` (запасной: `antique wooden baby cradle with a folded blanket, object`) |
 | 2 | `v5_02_foal_standing.png` | А | 3:2 | «Жеребёнок встаёт через час» | `newborn foal standing for the first time on long wobbly legs next to its mother mare, full body, side view` |
 | 3 | `v5_03_foal_herd.png` | Б | 4:3 | «бежит за табуном» | `young foal galloping alongside a herd of wild horses across an open plain, dust` |
-| 4 | `v5_04_baby_helpless.png` | А | 3:2 | «Вы встали через год» | `newborn baby lying on its back, crying, tiny arms and legs raised helplessly, full body` |
+| 4 | `v5_04_baby_helpless.png` | А | 3:2 | «Вы встали через год» | `infant in a knitted onesie and socks sitting on a blanket, trying to stand up and falling back, clumsy, full body` (запасной: `tiny baby hand gripping an adult's index finger, close-up`) |
 | 5 | `v5_05_chimp_baby.png` | А | 3:4 | «как детёныш обезьяны» | `baby chimpanzee clinging to its mother's back, the mother walking on all fours, full body` |
 | 6 | `v5_06_macaque_baby.png` | А | 1:1 | «У детёныша макаки» | `baby macaque monkey sitting alert with big curious eyes, full body` |
-| 7 | `v5_07_womb.png` | А | 3:4 | «двадцать один месяц в утробе» | `anatomical engraving of a human fetus curled inside the womb, Leonardo da Vinci anatomical study style` |
+| 7 | `v5_07_hourglass.png` | А | 3:4 | «двадцать один месяц в утробе» | `antique hourglass with sand running, ornate wooden frame, object` |
 | 8 | `v5_08_brains_compare.png` | А | 3:2 | «Мозг новорождённого — меньше трети» | `small newborn human brain next to a much larger adult human brain, side by side for size comparison, anatomical engraving` |
 | 9 | `v5_09_skeleton_walk.png` | А | 1:2 | «предки встали на две ноги» | `human skeleton walking upright, side view, mid-stride, anatomical engraving` |
 | 10 | `v5_10_pelvis.png` | А | 4:3 | «таз стал узким» | `anatomical human pelvis bone, front view, medical engraving` |
