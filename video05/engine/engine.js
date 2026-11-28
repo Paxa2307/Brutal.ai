@@ -500,7 +500,7 @@ function drawCaptions(c, t) {
     const tw = ln.reduce((a, [, ww]) => a + ww, 0) + sp * (ln.length - 1);
     let x = 540 - tw / 2; const y = y0 + li * size * 1.2;
     for (const [w, ww] of ln) {
-      const k = (t - w.s + 0.04) / 0.12;
+      const k = w.s < 0.05 ? 1 : (t - w.s + 0.04) / 0.12;
       if (k > 0) {
         c.save(); c.globalAlpha = clamp(k);
         if (k < 1) c.filter = `blur(${((1 - k) * 8).toFixed(1)}px)`;
@@ -574,7 +574,7 @@ function drawTitle(c, t) {
   let y = TITLE.y || 210;
   TITLE.lines.forEach(([str, green, size], i) => {
     if (i > 0) y += (TITLE.lines[i - 1][2] * 0.5 + size * 0.75);
-    const k = clamp((t - i * 0.12) / 0.18); if (k <= 0) return;
+    const k = 1;  // fully visible on frame 0: it is the cover and the first thing a scroller sees
     c.save(); c.globalAlpha = out * k; c.font = `900 ${size}px "MS"`;
     const fit = Math.min(1, 1000 / c.measureText(str).width);
     const sc = lerp(1.25, 1, eo(k)) * fit; c.translate(540, y); c.scale(sc, sc);
